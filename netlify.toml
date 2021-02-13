@@ -1,7 +1,15 @@
+[dev]
+  command = "next dev"
+
 [build]
-  command = "npm run build"
+  command = "yarn build"
   functions = "api"
   publish = "out"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
