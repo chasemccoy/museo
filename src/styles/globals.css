@@ -1,6 +1,15 @@
-html,
 body {
   font-family: var(--system-fonts);
+  background: black;
+  color: white;
+}
+
+a { 
+  color: inherit;
+}
+
+a:hover {
+  font-style: italic;
 }
 
 input,

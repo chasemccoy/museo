@@ -1,26 +1,39 @@
 .form {
   width: 100%;
+}
+
+.wrapper { 
   display: flex;
+  justify-contents: center;
   height: 3rem;
+  margin: 0 auto;
 }
 
 .input {
   flex-grow: 1;
   margin: 0;
   padding: 0 12px;
-  border-top: 1px solid lightGray;
-  border-bottom: 1px solid lightGray;
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  appearance: none;
+  border-radius: 12px 0 0 12px;
+}
+
+.input::-webkit-search-cancel-button {
+  appearance: none;
+  display: none;
 }
 
 .button {
   margin: 0;
   padding: 0 1.5rem;
-  background: mediumslateblue;
-  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.18);;
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
   transition: all 0.2s;
+  border-radius: 0 12px 12px 0;
 }
 
 .button:hover {
-  background: slateblue;
+  background: rgba(255, 255, 255, 0.16);
 }

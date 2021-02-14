@@ -59,7 +59,11 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <SearchInput value={value} onChange={e => setValue(e.target.value)} />
+        <header className={styles.header}>
+          <h1 className={styles.title}>🏛 Museo</h1>
+          <p className={styles.subtitle}>Museo is a visual search engine that connects you with the <a href="">Art Institute of Chicago</a> and the <a href="">New York Public Library Digital Collection</a><span className={styles.badge}>more to come!</span> Every image you find here is in the public domain and completely free to use (although crediting the source institution never hurts!)</p>
+          <SearchInput value={value} onChange={e => setValue(e.target.value)} />
+        </header>
 
         {/* <div style={{display: 'flex', flexWrap: 'wrap'}}>
           {data && data.map((item, i) => (
