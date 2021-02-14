@@ -52,23 +52,31 @@ export default function Home() {
   }, [searchTerm])
 
   return (
-    <div className={styles.container}>
+    <React.Fragment>
       <Head>
-        <title>Create Next App</title>
+        <title>Museo</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
         <SearchInput value={value} onChange={e => setValue(e.target.value)} />
 
-        <div style={{display: 'flex', flexWrap: 'wrap'}}>
+        {/* <div style={{display: 'flex', flexWrap: 'wrap'}}>
           {data && data.map((item, i) => (
             <figure key={i} style={{flexBasis: '20%'}}>
               <img src={item.image} alt={item.title} onError={e => e.target.parentNode.parentNode.removeChild(e.target.parentNode)} />
               <figcaption>{item.title}</figcaption>
             </figure>
           ))}
-        </div>
+        </div> */}
+
+        <ul className={styles.photoList}>
+          {data && data.map((item, i) => (
+            <li key={i}>
+              <img data-src={item.image} alt={item.title} onError={e => e.target.parentNode.parentNode.removeChild(e.target.parentNode)} className="lazyload" />
+            </li>
+          ))}
+        </ul>
         
         {/* <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
@@ -109,17 +117,6 @@ export default function Home() {
           </a>
         </div> */}
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+    </React.Fragment>
   )
 }

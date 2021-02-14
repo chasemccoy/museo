@@ -1,8 +1,9 @@
 import React from 'react'
+import styles from '../styles/SearchInput.module.css'
 
 const SearchInput = ({value, onChange}) => {
   return (
-    <form action='/' method='get' onSubmit={e => e.preventDefault}>
+    <form action='/' method='get' onSubmit={e => e.preventDefault} className={styles.form}>
       <input
         type="search"
         placeholder="Search the world’s museums"
@@ -10,9 +11,10 @@ const SearchInput = ({value, onChange}) => {
         onChange={onChange}
         name="q"
         aria-label="Search the world’s museums"
+        className={styles.input}
       />
 
-      <button type='submit'>Submit</button>
+      <button type='submit' className={styles.button}>Search</button>
     </form>
   )
 }

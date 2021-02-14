@@ -6722,6 +6722,11 @@ latest-version@^5.0.0:
   dependencies:
     package-json "^6.3.0"
 
+lazysizes@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/lazysizes/-/lazysizes-5.3.0.tgz#e31b40bc2500b45483251681c898bbb3ded744ac"
+  integrity sha512-h5i4WPc2FdeTOUHBcU7eyNnOULPCC90wVho+SQTZRh9Q8lev6P0yFwKq8rvfMdBvsKsCyDQBdqoBng9FYbcR/g==
+
 lazystream@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lazystream/-/lazystream-1.0.0.tgz#f6995fe0f820392f61396be89462407bb77168e4"

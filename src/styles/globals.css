@@ -8,5 +8,5 @@ textarea,
 select,
 button {
   font: inherit; 
-  border: 1px solid gray; 
+  border: none; 
 }
