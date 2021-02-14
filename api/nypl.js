@@ -5,9 +5,13 @@ const API_ENDPOINT = query => `http://api.repo.nypl.org/api/v1/items/search?q=${
 const IMAGE_URL = (id) => `http://images.nypl.org/index.php?id=${id}&t=w`
 
 exports.handler = async (event, context) => {
-  const query = event.queryStringParameters.query
+  const query = event.queryStringParameters.q
 
   try {
+    if (!query) {
+      throw 'Specify a query parameter'
+    }
+    
     const response = await fetch(API_ENDPOINT(query), {headers: {
       'Authorization': `Token token="${process.env.NYPL_TOKEN}"`
     }})

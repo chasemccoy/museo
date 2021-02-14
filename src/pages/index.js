@@ -1,7 +1,56 @@
+import React, {useState, useEffect} from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+import SearchInput from '../components/SearchInput'
 import styles from '../styles/Home.module.css'
 
+const AI_CHICAGO_URL = searchTerm => `/api/ai-chicago?q=${searchTerm}`
+const NYPL_URL = searchTerm => `/api/nypl?q=${searchTerm}`
+
+const interleave = ([x, ...xs], ys) => x ? [x, ...interleave(ys, xs)] : ys
+
+const fetchData = async ({ queryKey }) => {
+  const [source, searchTerm] = queryKey
+
+  if (!searchTerm) {
+    return null
+  }
+
+  switch (source) {
+    case 'ai-chicago': {
+      const response = await fetch(AI_CHICAGO_URL(searchTerm))
+      const data = await response.json()
+      return data
+    }
+    case 'nypl': {
+      const response = await fetch(NYPL_URL(searchTerm))
+      const data = await response.json()
+      return data
+    }
+    default:
+      return null;
+  }
+}
+ 
 export default function Home() {
+  const { query } = useRouter()
+  const searchTerm = query.q
+  const [value, setValue] = useState(searchTerm || '')
+
+  const {data: aiChicago} = useQuery(['ai-chicago', searchTerm], fetchData)
+  const {data: nypl} = useQuery(['nypl', searchTerm], fetchData)
+
+  let data = null
+
+  if (aiChicago && nypl) {
+    data = interleave(aiChicago, nypl)
+  }
+
+  useEffect(() => {
+    setValue(searchTerm || '')
+  }, [searchTerm])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -10,7 +59,18 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
+        <SearchInput value={value} onChange={e => setValue(e.target.value)} />
+
+        <div style={{display: 'flex', flexWrap: 'wrap'}}>
+          {data && data.map((item, i) => (
+            <figure key={i} style={{flexBasis: '20%'}}>
+              <img src={item.image} alt={item.title} onError={e => e.target.parentNode.parentNode.removeChild(e.target.parentNode)} />
+              <figcaption>{item.title}</figcaption>
+            </figure>
+          ))}
+        </div>
+        
+        {/* <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
@@ -47,7 +107,7 @@ export default function Home() {
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </a>
-        </div>
+        </div> */}
       </main>
 
       <footer className={styles.footer}>

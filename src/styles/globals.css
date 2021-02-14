@@ -1,0 +1,12 @@
+html,
+body {
+  font-family: var(--system-fonts);
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit; 
+  border: 1px solid gray; 
+}
