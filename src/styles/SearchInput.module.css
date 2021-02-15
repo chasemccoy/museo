@@ -26,7 +26,7 @@
 .button {
   margin: 0;
   padding: 0 1.5rem;
-  background: rgba(255, 255, 255, 0.3);;
+  background: rgba(255, 255, 255, 0.3);
   color: gainsboro;
   font-weight: 500;
   transition: all 0.2s;
