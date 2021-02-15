@@ -51,7 +51,7 @@ export default function Home() {
       <main className={styles.main}>
         <header className={styles.header}>
           <h1 className={styles.title}>🏛 Museo</h1>
-          <p className={styles.subtitle}>Museo is a visual search engine that connects you with the <a href="">Art Institute of Chicago</a>, the <a href="https://www.rijksmuseum.nl/nl">Rijksmuseum</a>, and the <a href="">New York Public Library Digital Collection</a><span className={styles.badge}>more to come!</span> Every image you find here is in the public domain and completely free to use (although crediting the source institution never hurts!)</p>
+          <p className={styles.subtitle}>Museo is a visual search engine that connects you with the <a href="https://www.artic.edu/archival-collections/explore-the-collection">Art Institute of Chicago</a>, the <a href="https://www.rijksmuseum.nl/nl">Rijksmuseum</a>, and the <a href="https://digitalcollections.nypl.org">New York Public Library Digital Collection</a><span className={styles.badge}>more to come!</span> Every image you find here is in the public domain and completely free to use (although crediting the source institution never hurts!)</p>
           <SearchInput value={value} onChange={e => setValue(e.target.value)} />
         </header>
 
