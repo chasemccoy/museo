@@ -7,7 +7,7 @@
 }
 
 .header {
-  padding: 2rem;
+  padding: 2rem 1rem;
   width: 100%;
   max-width: 90ch;
 }
@@ -88,20 +88,8 @@ ul.photoList:after {
   min-height: 50vh;
   display: flex;
   align-items: center;
+  padding: 0 16px;
 }
-
-/* .photoList a {
-  position: relative;
-}
-
-.photoList a::after {
-  content: attr(data-title);
-  color: black;
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  top: calc(-1 * var(--row-height));
-} */
 
 .photoList img:not([src]) {
 	visibility: hidden;
