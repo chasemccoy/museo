@@ -46,7 +46,7 @@
 } 
 
 ul.photoList {
-  --row-height: 20vh;
+  --row-height: 25vh;
   display: flex;
   flex-wrap: wrap;
   margin: 0 -2px;

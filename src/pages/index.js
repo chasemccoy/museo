@@ -5,32 +5,20 @@ import { useQuery } from 'react-query'
 import SearchInput from '../components/SearchInput'
 import styles from '../styles/Home.module.css'
 
-const AI_CHICAGO_URL = searchTerm => `/api/ai-chicago?q=${searchTerm}`
-const NYPL_URL = searchTerm => `/api/nypl?q=${searchTerm}`
+const URL = (source, searchTerm) => `/api/${source}?q=${searchTerm}`
 
 const interleave = ([x, ...xs], ys) => x ? [x, ...interleave(ys, xs)] : ys
 
 const fetchData = async ({ queryKey }) => {
   const [source, searchTerm] = queryKey
 
-  if (!searchTerm) {
+  if (!searchTerm || !source) {
     return null
   }
 
-  switch (source) {
-    case 'ai-chicago': {
-      const response = await fetch(AI_CHICAGO_URL(searchTerm))
-      const data = await response.json()
-      return data
-    }
-    case 'nypl': {
-      const response = await fetch(NYPL_URL(searchTerm))
-      const data = await response.json()
-      return data
-    }
-    default:
-      return null;
-  }
+  const response = await fetch(URL(source, searchTerm))
+  const data = await response.json()
+  return data
 }
  
 export default function Home() {
@@ -40,11 +28,13 @@ export default function Home() {
 
   const {data: aiChicago} = useQuery(['ai-chicago', searchTerm], fetchData)
   const {data: nypl} = useQuery(['nypl', searchTerm], fetchData)
+  const {data: rijks} = useQuery(['rijks', searchTerm], fetchData)
 
   let data = null
 
-  if (aiChicago && nypl) {
+  if (aiChicago && nypl && rijks) {
     data = interleave(aiChicago, nypl)
+    data = interleave(data, rijks)
   }
 
   useEffect(() => {
@@ -61,7 +51,7 @@ export default function Home() {
       <main className={styles.main}>
         <header className={styles.header}>
           <h1 className={styles.title}>🏛 Museo</h1>
-          <p className={styles.subtitle}>Museo is a visual search engine that connects you with the <a href="">Art Institute of Chicago</a> and the <a href="">New York Public Library Digital Collection</a><span className={styles.badge}>more to come!</span> Every image you find here is in the public domain and completely free to use (although crediting the source institution never hurts!)</p>
+          <p className={styles.subtitle}>Museo is a visual search engine that connects you with the <a href="">Art Institute of Chicago</a>, the <a href="https://www.rijksmuseum.nl/nl">Rijksmuseum</a>, and the <a href="">New York Public Library Digital Collection</a><span className={styles.badge}>more to come!</span> Every image you find here is in the public domain and completely free to use (although crediting the source institution never hurts!)</p>
           <SearchInput value={value} onChange={e => setValue(e.target.value)} />
         </header>
 
