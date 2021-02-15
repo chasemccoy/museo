@@ -68,6 +68,7 @@ export default function Home() {
       <Head>
         <title>Museo</title>
         <link rel='icon' href='/favicon.ico' />
+        <meta name="description" content="A visual search engine for discovering free images from some of the best museums in the world." />
       </Head>
 
       <main className={styles.main}>
