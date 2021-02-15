@@ -1,3 +1,3 @@
 # 🏛 Museo
 
-Museo is a visual search engine that connects you with the [Art Institute of Chicago](https://www.artic.edu/archival-collections/explore-the-collection), the [Rijksmuseum](https://www.rijksmuseum.nl), and the [New York Public Library Digital Collection](https://digitalcollections.nypl.org). Every image you find with Museo is in the public domain and completely free to use (although crediting the source institution never hurts!)
+Museo is a visual search engine that connects you with the [Art Institute of Chicago](https://www.artic.edu/archival-collections/explore-the-collection), the [Rijksmuseum](https://www.rijksmuseum.nl), the [Harvard Art Museums](https://harvardartmuseums.org), and the [New York Public Library Digital Collection](https://digitalcollections.nypl.org). Every image you find with Museo is in the public domain and completely free to use (although crediting the source institution never hurts!)

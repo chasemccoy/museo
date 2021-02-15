@@ -38,13 +38,19 @@ export default function Home() {
     ['rijks', searchTerm],
     fetchData
   )
+  const { data: harvard, isLoading: loadingHarvard } = useQuery(
+    ['harvard', searchTerm],
+    fetchData
+  )
 
   let data = null
-  const loading = loadingAIChicago || loadingNYPL || loadingRijks
+  const loading =
+    loadingAIChicago || loadingNYPL || loadingRijks || loadingHarvard
 
-  if (aiChicago && nypl && rijks) {
+  if (aiChicago && nypl && rijks && harvard) {
     data = interleave(aiChicago, nypl)
     data = interleave(data, rijks)
+    data = interleave(data, harvard)
   }
 
   useEffect(() => {
@@ -72,14 +78,15 @@ export default function Home() {
             <a href='https://www.artic.edu/archival-collections/explore-the-collection'>
               Art Institute of Chicago
             </a>
-            , the <a href='https://www.rijksmuseum.nl/nl'>Rijksmuseum</a>, and
+            , the <a href='https://www.rijksmuseum.nl/nl'>Rijksmuseum</a>, the{' '}
+            <a href='https://harvardartmuseums.org'>Harvard Art Museums</a>, and
             the{' '}
             <a href='https://digitalcollections.nypl.org'>
               New York Public Library Digital Collection
             </a>
             <span className={styles.badge}>more to come!</span> Every image you
             find here is in the public domain and completely free to use,
-            although crediting the source institution is a nice thing to do!
+            although crediting the source institution is recommended!
           </p>
 
           <p className={styles.credits}>
