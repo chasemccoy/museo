@@ -2,7 +2,7 @@ import 'resetti'
 import '../styles/globals.css'
 import 'lazysizes'
 
-import {QueryClientProvider, QueryClient} from 'react-query'
+import { QueryClientProvider, QueryClient } from 'react-query'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
