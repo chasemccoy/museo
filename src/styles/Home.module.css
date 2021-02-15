@@ -18,7 +18,7 @@
   font-size: 3.5em;
   line-height: 1;
   color: mediumseagreen;
-  font-family: Georgia;
+  font-family: var(--font-serif);
   background: -webkit-linear-gradient(mediumseagreen, mediumseagreen);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -54,7 +54,7 @@
 } 
 
 ul.photoList {
-  --row-height: 25vh;
+  --row-height: 20vw;
   display: flex;
   flex-wrap: wrap;
   margin: 0 -2px;
@@ -70,6 +70,8 @@ ul.photoList:after {
 
 .photoList li {
   height: var(--row-height);
+  min-height: 25vh;
+  max-height: 40vh;
   flex-grow: 1;
 }
 

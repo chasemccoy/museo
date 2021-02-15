@@ -1,3 +1,7 @@
+:root {
+  --font-serif: Georgia, serif;
+}
+
 body {
   font-family: var(--system-fonts);
   background: black;
