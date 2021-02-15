@@ -19,7 +19,8 @@ exports.handler = async (event, context) => {
 
     const data = json.nyplAPI.response.result.map(item => ({
       title: item.title,
-      image: IMAGE_URL(item.imageID)
+      image: IMAGE_URL(item.imageID),
+      url: item.itemLink
     }))
 
     // data.forEach(item => console.log(item.image))

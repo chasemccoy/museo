@@ -17,9 +17,9 @@
   margin: 0 0 1rem;
   font-size: 3.5em;
   line-height: 1;
-  color: papayawhip;
+  color: mediumseagreen;
   font-family: Georgia;
-  background: -webkit-linear-gradient(antiquewhite, antiquewhite);
+  background: -webkit-linear-gradient(mediumseagreen, mediumseagreen);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: normal;
@@ -29,14 +29,14 @@
 
 .subtitle { 
   text-align: center;
-  color: thistle;
+  color: peachpuff;
   margin: 0 0 1.5rem;
 }
 
 .badge {
   font-size: 0.6em;
   vertical-align: super;
-  background: darkorange;
+  background: violet;
   border-radius: 4px;
   display: inline-block;
   padding: 1px 6px;
@@ -46,6 +46,7 @@
 } 
 
 ul.photoList {
+  --row-height: 20vh;
   display: flex;
   flex-wrap: wrap;
   margin: 0 -2px;
@@ -60,7 +61,7 @@ ul.photoList:after {
 }
 
 .photoList li {
-  height: 20vh;
+  height: var(--row-height);
   flex-grow: 1;
 }
 
@@ -71,6 +72,19 @@ ul.photoList:after {
   vertical-align: bottom;
   border: 2px solid black;
 }
+
+/* .photoList a {
+  position: relative;
+}
+
+.photoList a::after {
+  content: attr(data-title);
+  color: black;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  top: calc(-1 * var(--row-height));
+} */
 
 .photoList img:not([src]) {
 	visibility: hidden;

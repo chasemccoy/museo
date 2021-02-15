@@ -77,7 +77,9 @@ export default function Home() {
         <ul className={styles.photoList}>
           {data && data.map((item, i) => (
             <li key={i}>
-              <img data-src={item.image} alt={item.title} onError={e => e.target.parentNode.parentNode.removeChild(e.target.parentNode)} className="lazyload" />
+              <a href={item.url} target="_blank">
+                <img data-src={item.image} alt={item.title} onError={e => e.target.parentNode.parentNode.removeChild(e.target.parentNode)} className="lazyload" />
+              </a>
             </li>
           ))}
         </ul>
