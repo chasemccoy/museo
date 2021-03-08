@@ -6,6 +6,13 @@ const API_ENDPOINT = (query, page = 1) =>
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
 
+  if(!process.env.RIJKS_TOKEN) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify([]),
+    }
+  }
+
   try {
     if (!query) {
       throw 'Specify a query parameter'
