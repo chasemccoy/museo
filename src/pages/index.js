@@ -42,15 +42,20 @@ export default function Home() {
     ['harvard', searchTerm],
     fetchData
   )
+  const { data: artsmia, isLoading: loadingArtsmia } = useQuery(
+    ['artsmia', searchTerm],
+    fetchData
+  )
 
   let data = null
   const loading =
-    loadingAIChicago || loadingNYPL || loadingRijks || loadingHarvard
+    loadingAIChicago || loadingNYPL || loadingRijks || loadingHarvard || loadingArtsmia
 
-  if (aiChicago && nypl && rijks && harvard) {
+  if (aiChicago && nypl && rijks && harvard && artsmia) {
     data = interleave(aiChicago, nypl)
     data = interleave(data, rijks)
     data = interleave(data, harvard)
+    data = interleave(data, artsmia)
   }
 
   useEffect(() => {
@@ -80,7 +85,8 @@ export default function Home() {
               Art Institute of Chicago
             </a>
             , the <a href='https://www.rijksmuseum.nl/nl'>Rijksmuseum</a>, the{' '}
-            <a href='https://harvardartmuseums.org'>Harvard Art Museums</a>, and
+            <a href='https://harvardartmuseums.org'>Harvard Art Museums</a>,
+            the <a href="https://artsmia.org">Minneapolis Institute of Art</a> and
             the{' '}
             <a href='https://digitalcollections.nypl.org'>
               New York Public Library Digital Collection

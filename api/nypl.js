@@ -8,6 +8,13 @@ const IMAGE_URL = (id) => `http://images.nypl.org/index.php?id=${id}&t=w`
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
 
+  if(!process.env.NYPL_TOKEN) {
+    return {
+      statusCode: 200,
+      body: JSON.stringify([]),
+    }
+  }
+
   try {
     if (!query) {
       throw 'Specify a query parameter'
