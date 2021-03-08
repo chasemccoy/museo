@@ -42,15 +42,20 @@ export default function Home() {
     ['harvard', searchTerm],
     fetchData
   )
+  const { data: artsmia, isLoading: loadingArtsmia } = useQuery(
+    ['artsmia', searchTerm],
+    fetchData
+  )
 
   let data = null
   const loading =
-    loadingAIChicago || loadingNYPL || loadingRijks || loadingHarvard
+    loadingAIChicago || loadingNYPL || loadingRijks || loadingHarvard || loadingArtsmia
 
-  if (aiChicago && nypl && rijks && harvard) {
+  if (aiChicago && nypl && rijks && harvard && artsmia) {
     data = interleave(aiChicago, nypl)
     data = interleave(data, rijks)
     data = interleave(data, harvard)
+    data = interleave(data, artsmia)
   }
 
   useEffect(() => {
