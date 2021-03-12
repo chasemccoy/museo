@@ -38,10 +38,10 @@ export default function Home() {
     ['rijks', searchTerm],
     fetchData
   )
-  const { data: harvard, isLoading: loadingHarvard } = useQuery(
-    ['harvard', searchTerm],
-    fetchData
-  )
+  // const { data: harvard, isLoading: loadingHarvard } = useQuery(
+  //   ['harvard', searchTerm],
+  //   fetchData
+  // )
   const { data: artsmia, isLoading: loadingArtsmia } = useQuery(
     ['artsmia', searchTerm],
     fetchData
@@ -49,12 +49,11 @@ export default function Home() {
 
   let data = null
   const loading =
-    loadingAIChicago || loadingNYPL || loadingRijks || loadingHarvard || loadingArtsmia
+    loadingAIChicago || loadingNYPL || loadingRijks || loadingArtsmia
 
-  if (aiChicago && nypl && rijks && harvard && artsmia) {
+  if (aiChicago && nypl && rijks && artsmia) {
     data = interleave(aiChicago, nypl)
     data = interleave(data, rijks)
-    data = interleave(data, harvard)
     data = interleave(data, artsmia)
   }
 
@@ -84,9 +83,7 @@ export default function Home() {
             <a href='https://www.artic.edu/archival-collections/explore-the-collection'>
               Art Institute of Chicago
             </a>
-            , the <a href='https://www.rijksmuseum.nl/nl'>Rijksmuseum</a>, the{' '}
-            <a href='https://harvardartmuseums.org'>Harvard Art Museums</a>,
-            the <a href="https://artsmia.org">Minneapolis Institute of Art</a> and
+            , the <a href='https://www.rijksmuseum.nl/nl'>Rijksmuseum</a>, the{' '}, the <a href="https://artsmia.org">Minneapolis Institute of Art</a> and
             the{' '}
             <a href='https://digitalcollections.nypl.org'>
               New York Public Library Digital Collection
