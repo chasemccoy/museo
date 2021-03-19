@@ -12,7 +12,8 @@ const graphqlQuery = (query) => `
           {field: "field_visuels", operator: IS_NOT_NULL},
           {field: "field_visuels.entity.field_image_libre", value: "1"}
         ]
-      }
+      },
+      limit: 100
     ) {
       entities {
         ... on NodeOeuvre {
@@ -31,6 +32,7 @@ const graphqlQuery = (query) => `
 
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
+  const responseBody = JSON.stringify({query: graphqlQuery(query)})
 
   if (!process.env.PARIS_TOKEN) {
     return {
@@ -50,25 +52,23 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json',
         'auth-token': process.env.PARIS_TOKEN
       },
-      body: {
-        query: JSON.stringify(graphqlQuery(query))
-      }
+      body: responseBody
     })
 
-    // const json = await response.json()
+    const json = await response.json()
+    let data = []
 
-    console.log(response)
-
-
-    // let data = publicImages.map((item) => ({
-    //   title: item.title,
-    //   image: item.webImage.url,
-    //   url: item.links.web,
-    // }))
+    if (json.data && json.data.nodeQuery.entities) {
+      data = json.data.nodeQuery.entities.map(item => ({
+        title: item.title,
+        image: item.fieldVisuels[0].entity.url,
+        url: item.url
+      }))
+    }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({}),
+      body: JSON.stringify(data),
     }
   } catch (error) {
     return {
