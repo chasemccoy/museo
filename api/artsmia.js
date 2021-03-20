@@ -16,6 +16,25 @@ function shapeMiaData(json) {
     }))
 }
 
+exports.artsmia = async (query) => {
+  const response = await fetch(API_ENDPOINT(query))
+  const json = await response.json()
+  const morePages = json.hits.total > json.hits.hits.length
+
+  let data = shapeMiaData(json)
+
+  if (morePages) {
+    const response2 = await fetch(API_ENDPOINT(query, Math.min(700, json.hits.total)))
+    const json2 = await response2.json()
+
+    // the API doesn't paginate - so this search (with 700) includes the 300
+    // from the first request.
+    data = shapeMiaData(json2)
+  }
+
+  return data
+}
+
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
 
@@ -24,20 +43,7 @@ exports.handler = async (event, context) => {
       throw 'Specify a query parameter'
     }
     
-    const response = await fetch(API_ENDPOINT(query))
-    const json = await response.json()
-    const morePages = json.hits.total > json.hits.hits.length
-
-    let data = shapeMiaData(json)
-
-    if (morePages) {
-      const response2 = await fetch(API_ENDPOINT(query, Math.min(700, json.hits.total)))
-      const json2 = await response2.json()
-
-      // the API doesn't paginate - so this search (with 700) includes the 300
-      // from the first request.
-      data = shapeMiaData(json2)
-    }
+    const data = await this.artsmia(query)
 
     return {
       statusCode: 200,

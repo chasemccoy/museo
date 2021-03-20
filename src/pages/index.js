@@ -5,18 +5,16 @@ import { useQuery } from 'react-query'
 import SearchInput from '../components/SearchInput'
 import styles from '../styles/Home.module.css'
 
-const URL = (source, searchTerm) => `/api/${source}?q=${searchTerm}`
-
-const interleave = ([x, ...xs], ys) => (x ? [x, ...interleave(ys, xs)] : ys)
+const URL = (searchTerm) => `/api/museo?q=${searchTerm}`
 
 const fetchData = async ({ queryKey }) => {
-  const [source, searchTerm] = queryKey
-
-  if (!searchTerm || !source) {
+  const [searchTerm] = queryKey
+  
+  if (!searchTerm) {
     return null
   }
 
-  const response = await fetch(URL(source, searchTerm))
+  const response = await fetch(URL(searchTerm))
   const data = await response.json()
   return data
 }
@@ -26,43 +24,16 @@ export default function Home() {
   const searchTerm = query.q
   const [value, setValue] = useState(searchTerm || '')
 
-  const { data: aiChicago, isLoading: loadingAIChicago } = useQuery(
-    ['ai-chicago', searchTerm],
+  const { data, isLoading } = useQuery(
+    [searchTerm],
     fetchData
   )
-  const { data: nypl, isLoading: loadingNYPL } = useQuery(
-    ['nypl', searchTerm],
-    fetchData
-  )
-  const { data: rijks, isLoading: loadingRijks } = useQuery(
-    ['rijks', searchTerm],
-    fetchData
-  )
-  const { data: harvard, isLoading: loadingHarvard } = useQuery(
-    ['harvard', searchTerm],
-    fetchData
-  )
-  const { data: artsmia, isLoading: loadingArtsmia } = useQuery(
-    ['artsmia', searchTerm],
-    fetchData
-  )
-
-  let data = null
-  const loading =
-    loadingAIChicago || loadingNYPL || loadingRijks || loadingHarvard || loadingArtsmia
-
-  if (aiChicago && nypl && rijks && harvard && artsmia) {
-    data = interleave(aiChicago, nypl)
-    data = interleave(data, rijks)
-    data = interleave(data, harvard)
-    data = interleave(data, artsmia)
-  }
 
   useEffect(() => {
     setValue(searchTerm || '')
   }, [searchTerm])
 
-  const emptyState = loading
+  const emptyState = isLoading
     ? 'Loading...'
     : searchTerm
     ? 'Hmm, there are no results for that query. Try something else?'

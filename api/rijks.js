@@ -3,6 +3,19 @@ const fetch = require('node-fetch')
 const API_ENDPOINT = (query, page = 1) =>
   `https://www.rijksmuseum.nl/api/en/collection?key=${process.env.RIJKS_TOKEN}&q=${query}&imgonly=true&ps=100`
 
+exports.rijks = async (query) => {
+  const response = await fetch(API_ENDPOINT(query))
+  const json = await response.json()
+
+  const publicImages = json.artObjects.filter((item) => !!item.permitDownload)
+
+  return publicImages.map((item) => ({
+    title: item.title,
+    image: item.webImage.url,
+    url: item.links.web,
+  }))
+}
+
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
 
@@ -18,16 +31,7 @@ exports.handler = async (event, context) => {
       throw 'Specify a query parameter'
     }
 
-    const response = await fetch(API_ENDPOINT(query))
-    const json = await response.json()
-
-    const publicImages = json.artObjects.filter((item) => !!item.permitDownload)
-
-    let data = publicImages.map((item) => ({
-      title: item.title,
-      image: item.webImage.url,
-      url: item.links.web,
-    }))
+    const data = await this.rijks(query)
 
     return {
       statusCode: 200,

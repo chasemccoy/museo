@@ -5,6 +5,22 @@ const API_ENDPOINT = (query) =>
 
 const IMAGE_URL = (id) => `http://images.nypl.org/index.php?id=${id}&t=w`
 
+exports.nypl = async (query) => {
+  const response = await fetch(API_ENDPOINT(query), {
+    headers: {
+      Authorization: `Token token="${process.env.NYPL_TOKEN}"`,
+    },
+  })
+
+  const json = await response.json()
+
+  return json.nyplAPI.response.result.map((item) => ({
+    title: item.title,
+    image: IMAGE_URL(item.imageID),
+    url: item.itemLink,
+  }))
+}
+
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
 
@@ -20,20 +36,7 @@ exports.handler = async (event, context) => {
       throw 'Specify a query parameter'
     }
 
-    const response = await fetch(API_ENDPOINT(query), {
-      headers: {
-        Authorization: `Token token="${process.env.NYPL_TOKEN}"`,
-      },
-    })
-    const json = await response.json()
-
-    const data = json.nyplAPI.response.result.map((item) => ({
-      title: item.title,
-      image: IMAGE_URL(item.imageID),
-      url: item.itemLink,
-    }))
-
-    // data.forEach(item => console.log(item.image))
+    const data = await this.nypl(query)
 
     return {
       statusCode: 200,
