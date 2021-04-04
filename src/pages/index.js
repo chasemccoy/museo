@@ -62,9 +62,8 @@ export default function Home() {
             <a href='https://digitalcollections.nypl.org'>
               New York Public Library Digital Collection
             </a>
-            <span className={styles.badge}>more to come!</span> Every image you
-            find here is in the public domain and completely free to use,
-            although crediting the source institution is recommended!
+            <span className={styles.badge}>more to come!</span> Images you
+            find here are typically free to use, but please check with the source institution for more specifics.
           </p>
 
           <p className={styles.credits}>
