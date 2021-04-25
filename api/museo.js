@@ -3,12 +3,13 @@ const {artsmia} = require('./artsmia')
 const {harvard} = require('./harvard') 
 const {nypl} = require('./nypl') 
 const {rijks} = require('./rijks') 
+const {cleveland} = require('./cleveland') 
 
 const interleave = ([x, ...xs], ys) => (x ? [x, ...interleave(ys, xs)] : ys)
 
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
-  const sources = [aiChicago, artsmia, harvard, nypl, rijks]
+  const sources = [aiChicago, artsmia, harvard, nypl, rijks, cleveland]
 
   try {
     if (!query) {

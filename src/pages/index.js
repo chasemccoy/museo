@@ -57,7 +57,7 @@ export default function Home() {
             </a>
             , the <a href='https://www.rijksmuseum.nl/nl'>Rijksmuseum</a>, the{' '}
             <a href='https://harvardartmuseums.org'>Harvard Art Museums</a>,
-            the <a href="https://artsmia.org">Minneapolis Institute of Art</a> and
+            the <a href="https://artsmia.org">Minneapolis Institute of Art</a>, the <a href="https://www.clevelandart.org">The Cleveland Museum of Art</a>, and
             the{' '}
             <a href='https://digitalcollections.nypl.org'>
               New York Public Library Digital Collection
