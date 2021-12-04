@@ -14,13 +14,23 @@ exports.nypl = async (query) => {
 
   const json = await response.json()
 
-  return json.nyplAPI.response.result
-    ? json.nyplAPI.response.result.map((item) => ({
-        title: item.title,
-        image: IMAGE_URL(item.imageID),
-        url: item.itemLink,
-      }))
-    : []
+  if (!json.nyplAPI.response) {
+    return []
+  }
+
+  if (typeof json.nyplAPI.response === 'array') {
+    return json.nyplAPI.response.result.map((item) => ({
+      title: item.title,
+      image: IMAGE_URL(item.imageID),
+      url: item.itemLink,
+    }))
+  } else {
+    return [json.nyplAPI.response.result].map((item) => ({
+      title: item.title,
+      image: IMAGE_URL(item.imageID),
+      url: item.itemLink,
+    }))
+  }
 }
 
 exports.handler = async (event, context) => {
