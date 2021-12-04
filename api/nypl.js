@@ -14,17 +14,19 @@ exports.nypl = async (query) => {
 
   const json = await response.json()
 
-  return json.nyplAPI.response.result.map((item) => ({
-    title: item.title,
-    image: IMAGE_URL(item.imageID),
-    url: item.itemLink,
-  }))
+  return json.nyplAPI.response.result
+    ? json.nyplAPI.response.result.map((item) => ({
+        title: item.title,
+        image: IMAGE_URL(item.imageID),
+        url: item.itemLink,
+      }))
+    : []
 }
 
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
 
-  if(!process.env.NYPL_TOKEN) {
+  if (!process.env.NYPL_TOKEN) {
     return {
       statusCode: 200,
       body: JSON.stringify([]),
