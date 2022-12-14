@@ -9,14 +9,23 @@ const URL = (searchTerm) => `/api/museo?q=${searchTerm}`
 
 const fetchData = async ({ queryKey }) => {
   const [searchTerm] = queryKey
-  
+
   if (!searchTerm) {
     return null
   }
 
-  const response = await fetch(URL(searchTerm))
-  const data = await response.json()
-  return data
+  try {
+    const response = await fetch(URL(searchTerm))
+    if (!response.ok) {
+      throw 'Query to Museo API failed'
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.log(error)
+    return []
+  }
 }
 
 export default function Home() {
@@ -24,10 +33,7 @@ export default function Home() {
   const searchTerm = query.q
   const [value, setValue] = useState(searchTerm || '')
 
-  const { data, isLoading } = useQuery(
-    [searchTerm],
-    fetchData
-  )
+  const { data, isLoading } = useQuery([searchTerm], fetchData)
 
   useEffect(() => {
     setValue(searchTerm || '')
@@ -44,7 +50,10 @@ export default function Home() {
       <Head>
         <title>Museo</title>
         <link rel='icon' href='/favicon.ico' />
-        <meta name="description" content="A visual search engine for discovering free images from some of the best museums in the world." />
+        <meta
+          name='description'
+          content='A visual search engine for discovering free images from some of the best museums in the world.'
+        />
       </Head>
 
       <main className={styles.main}>
@@ -56,14 +65,18 @@ export default function Home() {
               Art Institute of Chicago
             </a>
             , the <a href='https://www.rijksmuseum.nl/nl'>Rijksmuseum</a>, the{' '}
-            <a href='https://harvardartmuseums.org'>Harvard Art Museums</a>,
-            the <a href="https://artsmia.org">Minneapolis Institute of Art</a>, the <a href="https://www.clevelandart.org">The Cleveland Museum of Art</a>, and
-            the{' '}
+            <a href='https://harvardartmuseums.org'>Harvard Art Museums</a>, the{' '}
+            <a href='https://artsmia.org'>Minneapolis Institute of Art</a>, the{' '}
+            <a href='https://www.clevelandart.org'>
+              The Cleveland Museum of Art
+            </a>
+            , and the{' '}
             <a href='https://digitalcollections.nypl.org'>
               New York Public Library Digital Collection
             </a>
-            <span className={styles.badge}>more to come!</span> Images you
-            find here are typically free to use, but please check with the source institution for more specifics.
+            <span className={styles.badge}>more to come!</span> Images you find
+            here are typically free to use, but please check with the source
+            institution for more specifics.
           </p>
 
           <p className={styles.credits}>

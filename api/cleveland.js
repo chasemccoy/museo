@@ -1,16 +1,26 @@
 const fetch = require('node-fetch')
 
-const API_ENDPOINT = (query) => `https://openaccess-api.clevelandart.org/api/artworks/?q=${query}&has_image=1&limit=300&cc0`
-  
-exports.cleveland = async (query) => {
-  const response = await fetch(API_ENDPOINT(query))
-  const json = await response.json()
+const API_ENDPOINT = (query) =>
+  `https://openaccess-api.clevelandart.org/api/artworks/?q=${query}&has_image=1&limit=100&cc0`
 
-  return json.data.map(item => ({
-    title: item.title,
-    image: item.images.web.url,
-    url: item.url
-  }))
+exports.cleveland = async (query) => {
+  try {
+    const response = await fetch(API_ENDPOINT(query))
+    if (!response.ok) {
+      throw 'Query to Cleveland API failed'
+    }
+
+    const json = await response.json()
+
+    return json.data.map((item) => ({
+      title: item.title,
+      image: item.images.web.url,
+      url: item.url,
+    }))
+  } catch (error) {
+    console.log(error)
+    return []
+  }
 }
 
 exports.handler = async (event, context) => {
