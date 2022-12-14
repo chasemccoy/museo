@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "lazysizes": "^5.3.0",
-    "next": "10.0.6",
+    "next": "12.2.0",
     "precinct": "^8.0.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-query": "^3.9.3",
     "resetti": "^1.1.3"
   },
