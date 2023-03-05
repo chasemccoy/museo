@@ -18,7 +18,7 @@ exports.nypl = async (query) => {
     return []
   }
 
-  if (typeof json.nyplAPI.response === 'array') {
+  if (Array.isArray(json.nyplAPI.response.result)) {
     return json.nyplAPI.response.result.map((item) => ({
       title: item.title,
       image: IMAGE_URL(item.imageID),
