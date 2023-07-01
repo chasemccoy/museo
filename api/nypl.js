@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 
 const API_ENDPOINT = (query) =>
-  `http://api.repo.nypl.org/api/v1/items/search?q=${query}&publicDomainOnly=true&per_page=100`
+  `http://api.repo.nypl.org/api/v2/items/search?q=${query}&publicDomainOnly=true&per_page=100`
 
 const IMAGE_URL = (id) => `http://images.nypl.org/index.php?id=${id}&t=w`
 
