@@ -6,30 +6,34 @@ const API_ENDPOINT = (query) =>
 const IMAGE_URL = (id) => `http://images.nypl.org/index.php?id=${id}&t=w`
 
 exports.nypl = async (query) => {
-  const response = await fetch(API_ENDPOINT(query), {
-    headers: {
-      Authorization: `Token token="${process.env.NYPL_TOKEN}"`,
-    },
-  })
+  try {
+    const response = await fetch(API_ENDPOINT(query), {
+      headers: {
+        Authorization: `Token token="${process.env.NYPL_TOKEN}"`,
+      },
+    })
 
-  const json = await response.json()
+    const json = await response.json()
 
-  if (!json.nyplAPI.response) {
+    if (!json.nyplAPI.response) {
+      return []
+    }
+
+    if (Array.isArray(json.nyplAPI.response.result)) {
+      return json.nyplAPI.response.result.map((item) => ({
+        title: item.title,
+        image: IMAGE_URL(item.imageID),
+        url: item.itemLink,
+      }))
+    } else {
+      return [json.nyplAPI.response.result].map((item) => ({
+        title: item.title,
+        image: IMAGE_URL(item.imageID),
+        url: item.itemLink,
+      }))
+    }
+  } catch (error) {
     return []
-  }
-
-  if (Array.isArray(json.nyplAPI.response.result)) {
-    return json.nyplAPI.response.result.map((item) => ({
-      title: item.title,
-      image: IMAGE_URL(item.imageID),
-      url: item.itemLink,
-    }))
-  } else {
-    return [json.nyplAPI.response.result].map((item) => ({
-      title: item.title,
-      image: IMAGE_URL(item.imageID),
-      url: item.itemLink,
-    }))
   }
 }
 

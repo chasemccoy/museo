@@ -18,7 +18,6 @@ exports.cleveland = async (query) => {
       url: item.url,
     }))
   } catch (error) {
-    console.log(error)
     return []
   }
 }

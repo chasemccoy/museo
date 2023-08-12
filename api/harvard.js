@@ -4,16 +4,20 @@ const API_ENDPOINT = (query, page = 1) =>
   `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_TOKEN}&q=${query}&hasimage=1&size=100`
 
 exports.harvard = async (query) => {
-  const response = await fetch(API_ENDPOINT(query))
-  const json = await response.json()
+  try {
+    const response = await fetch(API_ENDPOINT(query))
+    const json = await response.json()
 
-  const withImages = json.records.filter((item) => item.images.length > 0)
+    const withImages = json.records.filter((item) => item.images.length > 0)
 
-  return withImages.map((item) => ({
-    title: item.title,
-    image: item.images[item.images.length - 1].baseimageurl,
-    url: item.url,
-  }))
+    return withImages.map((item) => ({
+      title: item.title,
+      image: item.images[item.images.length - 1].baseimageurl,
+      url: item.url,
+    }))
+  } catch (error) {
+    return []
+  }
 }
 
 exports.handler = async (event, context) => {
