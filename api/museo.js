@@ -9,7 +9,8 @@ const interleave = ([x, ...xs], ys) => (x ? [x, ...interleave(ys, xs)] : ys)
 
 exports.handler = async (event, context) => {
   const query = event.queryStringParameters.q
-  const sources = [aiChicago, artsmia, harvard, nypl, rijks, cleveland]
+  // const sources = [aiChicago, artsmia, harvard, nypl, rijks, cleveland]
+  const sources = [aiChicago, artsmia, harvard, nypl, rijks]
 
   try {
     if (!query) {
