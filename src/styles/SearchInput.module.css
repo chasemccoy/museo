@@ -1,8 +1,9 @@
 .form {
   width: 100%;
+  max-width: 50rem;
 }
 
-.wrapper { 
+.wrapper {
   display: flex;
   height: 3rem;
   margin: 0 auto;
@@ -12,10 +13,14 @@
   flex-grow: 1;
   margin: 0;
   padding: 0 12px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.4);
   color: inherit;
   appearance: none;
-  border-radius: 12px 0 0 12px;
+  border-radius: 4px 0 0 4px;
+}
+
+.input:placeholder-shown {
+  font-style: italic;
 }
 
 .input::-webkit-search-cancel-button {
@@ -26,13 +31,14 @@
 .button {
   margin: 0;
   padding: 0 1.5rem;
-  background: rgba(255, 255, 255, 0.3);
-  color: gainsboro;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
-  transition: all 0.2s;
-  border-radius: 0 12px 12px 0;
+  transition: all 0.15s;
+  border-radius: 0 4px 4px 0;
 }
 
 .button:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: mediumseagreen;
+  color: black;
 }

@@ -1,36 +1,54 @@
 .main {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 .header {
-  padding: 2rem 1rem;
+  padding: 2rem;
   width: 100%;
-  max-width: 90ch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.subtitle,
+.credits {
+  max-width: 50rem;
 }
 
 .title {
   text-align: center;
-  margin: 0 0 1rem;
-  font-size: 3.5em;
-  line-height: 1;
+  font-size: clamp(12rem, 7rem + 11vw, 25rem);
   color: mediumseagreen;
-  font-family: var(--font-serif);
-  background: -webkit-linear-gradient(mediumseagreen, mediumseagreen);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: normal;
-  letter-spacing: 2px;
-  font-style: italic;
+  font-family: Lofi Forest;
+  letter-spacing: -0.05em;
+  overflow-wrap: break-word;
+  line-height: 0.9;
+  max-width: 100%;
+  hyphenate-character: '';
+  margin-block: 0 -1rem;
 }
 
-.subtitle { 
+.title a {
+  text-decoration: none;
+}
+
+.title a:hover {
+  font-style: normal;
+}
+
+.subtitle {
   text-align: center;
   color: peachpuff;
-  margin: 0 0 0.75rem;
+}
+
+.divider {
+  margin: 0.5rem 0;
+  opacity: 0.5;
 }
 
 .credits {
@@ -38,20 +56,7 @@
   color: peachpuff;
   opacity: 0.8;
   font-size: 0.7em;
-  margin: 0 0 0.9rem;
 }
-
-.badge {
-  font-size: 0.6em;
-  vertical-align: super;
-  background: violet;
-  border-radius: 4px;
-  display: inline-block;
-  padding: 1px 6px;
-  color: black;
-  margin: 0 4px;
-  font-style: italic;
-} 
 
 ul.photoList {
   --row-height: 20vw;
@@ -92,5 +97,5 @@ ul.photoList:after {
 }
 
 .photoList img:not([src]) {
-	visibility: hidden;
+  visibility: hidden;
 }

@@ -1,7 +1,33 @@
 import React from 'react'
 import styles from '../styles/SearchInput.module.css'
 
+const PLACEHOLDERS = [
+  'Trees',
+  'Paintings of nature',
+  'Maps',
+  'Statues',
+  'Art with flowers',
+  'Scenes from history',
+  'Portraits',
+  'Clouds',
+  'Book illustrations',
+  'Abstract art',
+  'Mythology paintings',
+  'Animal sculptures',
+  'Vintage posters',
+  'Mountains',
+  'Patterns and designs',
+  'Landscapes',
+  'Art about cities',
+  'Still life',
+  'Photos of people',
+  'Cities',
+]
+
 const SearchInput = ({ value, onChange }) => {
+  const placeholder =
+    PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)]
+
   return (
     <form
       action='/'
@@ -12,7 +38,7 @@ const SearchInput = ({ value, onChange }) => {
       <div className={styles.wrapper}>
         <input
           type='search'
-          placeholder='Search the world’s museums'
+          placeholder={`“${placeholder}”`}
           value={value}
           onChange={onChange}
           name='q'
