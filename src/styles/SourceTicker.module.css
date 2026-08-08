@@ -1,0 +1,68 @@
+.band {
+  border-top: 1px solid rgba(60, 179, 113, 0.4);
+  border-bottom: 1px solid rgba(60, 179, 113, 0.4);
+  padding: 0.6rem 0;
+  overflow: hidden;
+  max-width: 50rem;
+  width: 100%;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 8%,
+    black 92%,
+    transparent
+  );
+}
+
+.reel {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  width: max-content;
+  animation: scroll 45s linear infinite;
+}
+
+.band:hover .reel {
+  animation-play-state: paused;
+}
+
+.reel a {
+  color: peachpuff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.reel a:hover {
+  color: mediumseagreen;
+  font-style: normal;
+}
+
+.star {
+  color: mediumseagreen;
+  margin: 0 1.1rem;
+  font-size: 0.7rem;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reel {
+    animation: none;
+  }
+}

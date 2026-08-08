@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import SearchInput from '../components/SearchInput'
+import SourceTicker from '../components/SourceTicker'
 import styles from '../styles/Home.module.css'
 
 const URL = (searchTerm) => `/api/museo?q=${searchTerm}`
@@ -63,23 +64,13 @@ export default function Home() {
           </h1>
 
           <p className={styles.subtitle}>
-            Museo is a visual search engine that connects you with the{' '}
-            <a href='https://www.artic.edu/archival-collections/explore-the-collection'>
-              Art Institute of Chicago
-            </a>
-            , the <a href='https://www.rijksmuseum.nl/nl'>Rijksmuseum</a>, the{' '}
-            <a href='https://harvardartmuseums.org'>Harvard Art Museums</a>, the{' '}
-            <a href='https://artsmia.org'>Minneapolis Institute of Art</a>, the{' '}
-            <a href='https://www.clevelandart.org'>
-              The Cleveland Museum of Art
-            </a>
-            , and the{' '}
-            <a href='https://digitalcollections.nypl.org'>
-              New York Public Library Digital Collection
-            </a>
-            . Images you find here are typically free to use, but please check
-            with the source institution for more specifics.
+            Museo is a visual search engine for free, public-domain images
+            from ten of the world&rsquo;s great museums and libraries. Images
+            you find here are typically free to use, but please check with the
+            source institution for more specifics.
           </p>
+
+          <SourceTicker />
 
           {!searchTerm && !isLoading && (
             <svg
