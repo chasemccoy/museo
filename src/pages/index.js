@@ -40,15 +40,17 @@ const fetchSource = async ({ queryKey }) => {
 }
 
 export default function Home() {
-  const { query } = useRouter()
-  const searchTerm = query.q
+  const router = useRouter()
+  const searchTerm = router.query.q
   const [value, setValue] = useState(searchTerm || '')
 
+  // router.isReady gates the queries until after hydration commits —
+  // fetches resolving mid-hydration force React to repeatedly restart it
   const results = useQueries(
     SOURCE_APIS.map((source) => ({
       queryKey: [source, searchTerm],
       queryFn: fetchSource,
-      enabled: Boolean(searchTerm),
+      enabled: router.isReady && Boolean(searchTerm),
     }))
   )
 
@@ -56,10 +58,12 @@ export default function Home() {
   const data = useMemo(() => {
     const lists = results.map((r) => r.data).filter(Array.isArray)
     const interleaved = []
+    const seen = new Set() // some sources return the same item twice
     const longest = Math.max(0, ...lists.map((l) => l.length))
     for (let i = 0; i < longest; i++) {
       for (const list of lists) {
-        if (list[i]) {
+        if (list[i] && !seen.has(list[i].image)) {
+          seen.add(list[i].image)
           interleaved.push(list[i])
         }
       }
@@ -126,6 +130,13 @@ export default function Home() {
           <SearchInput
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            onSubmit={() =>
+              router.push(
+                { pathname: '/', query: value ? { q: value } : {} },
+                undefined,
+                { shallow: true }
+              )
+            }
           />
 
           <p className={styles.credits}>

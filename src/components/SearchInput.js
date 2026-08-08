@@ -24,7 +24,7 @@ const PLACEHOLDERS = [
   'Cities',
 ]
 
-const SearchInput = ({ value, onChange }) => {
+const SearchInput = ({ value, onChange, onSubmit }) => {
   // Picked after mount so the server and client render the same markup —
   // randomizing during render causes a hydration mismatch on every load
   const [placeholder, setPlaceholder] = useState(PLACEHOLDERS[0])
@@ -39,7 +39,10 @@ const SearchInput = ({ value, onChange }) => {
     <form
       action='/'
       method='get'
-      onSubmit={(e) => e.preventDefault}
+      onSubmit={(e) => {
+        e.preventDefault()
+        onSubmit()
+      }}
       className={styles.form}
     >
       <div className={styles.wrapper}>
