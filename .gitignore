@@ -36,5 +36,3 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
-# Design lab (never committed)
-design-lab/

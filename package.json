@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "netlify dev",
+    "dev": "npx -y netlify-cli dev",
     "build": "next build",
     "start": "next start"
   },
@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^4.38.1",
-    "netlify-cli": "^27.1.1",
     "node-fetch": "^2.6.1"
   }
 }
