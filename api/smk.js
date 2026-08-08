@@ -1,23 +1,26 @@
 const fetch = require('node-fetch')
 
 const API_ENDPOINT = (query) =>
-  `https://openaccess-api.clevelandart.org/api/artworks/?q=${query}&has_image=1&limit=100&cc0=1`
+  `https://api.smk.dk/api/v1/art/search?keys=${query}&filters=%5Bpublic_domain%3Atrue%5D,%5Bhas_image%3Atrue%5D&rows=100`
 
-exports.cleveland = async (query) => {
+const ITEM_URL = (objectNumber) =>
+  `https://open.smk.dk/en/artwork/image/${objectNumber}`
+
+exports.smk = async (query) => {
   try {
     const response = await fetch(API_ENDPOINT(query))
-    if (!response.ok) {
-      throw 'Query to Cleveland API failed'
-    }
-
     const json = await response.json()
 
-    return json.data
-      .filter((item) => item.images && item.images.web)
+    if (!json.items) {
+      return []
+    }
+
+    return json.items
+      .filter((item) => item.image_thumbnail && item.titles && item.titles[0])
       .map((item) => ({
-        title: item.title,
-        image: item.images.web.url,
-        url: item.url,
+        title: item.titles[0].title,
+        image: item.image_thumbnail,
+        url: ITEM_URL(item.object_number),
       }))
   } catch (error) {
     return []
@@ -32,7 +35,7 @@ exports.handler = async (event, context) => {
       throw 'Specify a query parameter'
     }
 
-    const data = await this.cleveland(query)
+    const data = await this.smk(query)
 
     return {
       statusCode: 200,
