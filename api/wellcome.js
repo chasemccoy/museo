@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = (query) =>
   `https://api.wellcomecollection.org/catalogue/v2/images?query=${query}&locations.license=cc0,pdm&pageSize=100`
@@ -42,6 +43,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

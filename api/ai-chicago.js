@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 // Note: is_public_domain is filtered client-side rather than with a
 // query[term] param — the term filter inflates every result's _score,
@@ -60,6 +61,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

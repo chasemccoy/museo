@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = (query) =>
   `http://api.repo.nypl.org/api/v2/items/search?q=${query}&publicDomainOnly=true&per_page=100`
@@ -43,6 +44,7 @@ exports.handler = async (event, context) => {
   if (!process.env.NYPL_TOKEN) {
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify([]),
     }
   }
@@ -56,6 +58,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

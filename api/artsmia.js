@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = (query, numResults = 300) =>
   `https://search.artsmia.org/${query}%20rights_type:"Public%20Domain"%20image:valid?size=${numResults}`
@@ -54,6 +55,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

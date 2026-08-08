@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = (query) =>
   `https://openaccess-api.clevelandart.org/api/artworks/?q=${query}&has_image=1&limit=100&cc0=1`
@@ -36,6 +37,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

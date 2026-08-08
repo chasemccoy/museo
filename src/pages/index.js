@@ -1,28 +1,38 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useQuery } from 'react-query'
+import { useQueries } from 'react-query'
 import SearchInput from '../components/SearchInput'
 import SourceTicker from '../components/SourceTicker'
 import styles from '../styles/Home.module.css'
 
-const URL = (searchTerm) => `/api/museo?q=${searchTerm}`
+// Each source is fetched independently so results render as they arrive
+// instead of waiting on the slowest museum.
+const SOURCE_APIS = [
+  'ai-chicago',
+  'artsmia',
+  'harvard',
+  'nypl',
+  'rijks',
+  'cleveland',
+  'met',
+  'smk',
+  'wellcome',
+  'smithsonian',
+]
 
-const fetchData = async ({ queryKey }) => {
-  const [searchTerm] = queryKey
-
-  if (!searchTerm) {
-    return null
-  }
+const fetchSource = async ({ queryKey }) => {
+  const [source, searchTerm] = queryKey
 
   try {
-    const response = await fetch(URL(searchTerm))
+    const response = await fetch(
+      `/api/${source}?q=${encodeURIComponent(searchTerm)}`
+    )
     if (!response.ok) {
-      throw 'Query to Museo API failed'
+      throw `Query to ${source} failed`
     }
 
-    const data = await response.json()
-    return data
+    return await response.json()
   } catch (error) {
     console.log(error)
     return []
@@ -34,17 +44,41 @@ export default function Home() {
   const searchTerm = query.q
   const [value, setValue] = useState(searchTerm || '')
 
-  const { data, isLoading } = useQuery([searchTerm], fetchData)
+  const results = useQueries(
+    SOURCE_APIS.map((source) => ({
+      queryKey: [source, searchTerm],
+      queryFn: fetchSource,
+      enabled: Boolean(searchTerm),
+    }))
+  )
+
+  // Round-robin interleave whatever has arrived so far
+  const data = useMemo(() => {
+    const lists = results.map((r) => r.data).filter(Array.isArray)
+    const interleaved = []
+    const longest = Math.max(0, ...lists.map((l) => l.length))
+    for (let i = 0; i < longest; i++) {
+      for (const list of lists) {
+        if (list[i]) {
+          interleaved.push(list[i])
+        }
+      }
+    }
+    return interleaved
+  }, [results])
 
   useEffect(() => {
     setValue(searchTerm || '')
   }, [searchTerm])
 
-  const emptyState = isLoading
-    ? 'Loading...'
-    : searchTerm
-    ? 'Hmm, there are no results for that query. Try something else?'
-    : null
+  const isLoading = Boolean(searchTerm) && results.some((r) => r.isLoading)
+
+  const emptyState =
+    isLoading && data.length === 0
+      ? 'Loading...'
+      : searchTerm && !isLoading
+      ? 'Hmm, there are no results for that query. Try something else?'
+      : null
 
   return (
     <React.Fragment>
@@ -110,16 +144,17 @@ export default function Home() {
           <ul className={styles.photoList}>
             {data &&
               data.map((item, i) => (
-                <li key={i}>
+                <li key={item.image || i}>
                   <a href={item.url} target='_blank'>
                     <img
                       data-src={item.image}
                       alt={item.title}
-                      onError={(e) =>
-                        e.target.parentNode.parentNode.removeChild(
-                          e.target.parentNode
-                        )
-                      }
+                      onError={(e) => {
+                        // Hide rather than remove — the list re-renders as
+                        // sources stream in, so React must own the DOM
+                        const li = e.target.closest('li')
+                        if (li) li.style.display = 'none'
+                      }}
                       className='lazyload'
                     />
                   </a>

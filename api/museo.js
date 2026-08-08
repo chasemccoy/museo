@@ -1,4 +1,5 @@
 const { aiChicago } = require('./ai-chicago')
+const { CACHE_HEADERS } = require('./lib/cache')
 const { artsmia } = require('./artsmia')
 const { harvard } = require('./harvard')
 const { nypl } = require('./nypl')
@@ -43,6 +44,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

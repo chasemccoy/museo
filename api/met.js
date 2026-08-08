@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const SEARCH_ENDPOINT = (query) =>
   `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${query}&hasImages=true`
@@ -52,6 +53,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

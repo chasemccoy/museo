@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from '../styles/SearchInput.module.css'
 
 const PLACEHOLDERS = [
@@ -25,8 +25,15 @@ const PLACEHOLDERS = [
 ]
 
 const SearchInput = ({ value, onChange }) => {
-  const placeholder =
-    PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)]
+  // Picked after mount so the server and client render the same markup —
+  // randomizing during render causes a hydration mismatch on every load
+  const [placeholder, setPlaceholder] = useState(PLACEHOLDERS[0])
+
+  useEffect(() => {
+    setPlaceholder(
+      PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)]
+    )
+  }, [])
 
   return (
     <form

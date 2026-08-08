@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = (query) =>
   `https://api.si.edu/openaccess/api/v1.0/search?q=${query}%20AND%20online_media_type:%22Images%22%20AND%20media_usage:%22CC0%22&api_key=${process.env.SMITHSONIAN_TOKEN}&rows=100`
@@ -46,6 +47,7 @@ exports.handler = async (event, context) => {
   if (!process.env.SMITHSONIAN_TOKEN) {
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify([]),
     }
   }
@@ -59,6 +61,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

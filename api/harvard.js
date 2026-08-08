@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = (query, page = 1) =>
   `https://api.harvardartmuseums.org/object?apikey=${process.env.HARVARD_TOKEN}&q=${query}&hasimage=1&size=100`
@@ -26,6 +27,7 @@ exports.handler = async (event, context) => {
   if (!process.env.HARVARD_TOKEN) {
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify([]),
     }
   }
@@ -39,6 +41,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

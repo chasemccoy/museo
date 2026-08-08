@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = (query, page = 1) =>
   `https://www.rijksmuseum.nl/api/en/collection?key=${process.env.RIJKS_TOKEN}&q=${query}&imgonly=true&ps=100`
@@ -26,6 +27,7 @@ exports.handler = async (event, context) => {
   if (!process.env.RIJKS_TOKEN) {
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify([]),
     }
   }
@@ -39,6 +41,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = (query) =>
   `https://api.smk.dk/api/v1/art/search?keys=${query}&filters=%5Bpublic_domain%3Atrue%5D,%5Bhas_image%3Atrue%5D&rows=100`
@@ -39,6 +40,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {

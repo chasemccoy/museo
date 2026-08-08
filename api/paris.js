@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = `http://apicollections.parismusees.paris.fr/graphql`
 
@@ -37,6 +38,7 @@ exports.handler = async (event, context) => {
   if (!process.env.PARIS_TOKEN) {
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify([]),
     }
   }
@@ -68,6 +70,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
+      headers: CACHE_HEADERS,
       body: JSON.stringify(data),
     }
   } catch (error) {
