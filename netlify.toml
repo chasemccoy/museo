@@ -1,5 +1,7 @@
 [dev]
-  command = "next dev"
+  command = "next dev -p 3000"
+  port = 8888
+  targetPort = 3000
 
 [build]
   command = "yarn build"
