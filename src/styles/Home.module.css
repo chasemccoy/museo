@@ -43,6 +43,7 @@
 
 .subtitle {
   text-align: center;
+  text-wrap: pretty;
   color: peachpuff;
 }
 
