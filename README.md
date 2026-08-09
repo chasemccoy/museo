@@ -1,6 +1,6 @@
 # 🏛 Museo
 
-Museo is a visual search engine that connects you with twelve of the world's great museums and libraries:
+Museo is a visual search engine that connects you with twelve of the world's great museums, libraries, and institutions:
 
 - [Art Institute of Chicago](https://www.artic.edu/archival-collections/explore-the-collection)
 - [The Metropolitan Museum of Art](https://www.metmuseum.org)
