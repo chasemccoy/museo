@@ -7,7 +7,7 @@ const API_ENDPOINT = (query, page = 1) =>
   `https://api.artic.edu/api/v1/artworks/search?q=${query}&limit=100&page=${page}&fields=title,image_id,id,is_public_domain`
 
 const IMAGE_URL = (id) =>
-  `https://artic.edu/iiif/2/${id}/full/843,/0/default.jpg`
+  `https://www.artic.edu/iiif/2/${id}/full/843,/0/default.jpg`
 
 const ITEM_URL = (id) => `https://www.artic.edu/artworks/${id}`
 

@@ -56,9 +56,16 @@ export default function Home() {
     })),
   })
 
+  // Cap each source's contribution — beyond this the grid is all cost
+  // (layout and image fetches) and no discovery value
+  const MAX_PER_SOURCE = 48
+
   // Round-robin interleave whatever has arrived so far
   const data = useMemo(() => {
-    const lists = results.map((r) => r.data).filter(Array.isArray)
+    const lists = results
+      .map((r) => r.data)
+      .filter(Array.isArray)
+      .map((list) => list.slice(0, MAX_PER_SOURCE))
     const interleaved = []
     const seen = new Set() // some sources return the same item twice
     const longest = Math.max(0, ...lists.map((l) => l.length))
@@ -163,6 +170,7 @@ export default function Home() {
                       src={item.image}
                       alt={item.title}
                       loading='lazy'
+                      decoding='async'
                       onError={(e) => {
                         // Hide rather than remove — the list re-renders as
                         // sources stream in, so React must own the DOM
