@@ -97,6 +97,3 @@ ul.photoList:after {
   padding: 0 16px;
 }
 
-.photoList img:not([src]) {
-  visibility: hidden;
-}

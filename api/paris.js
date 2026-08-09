@@ -1,4 +1,3 @@
-const fetch = require('node-fetch')
 const { CACHE_HEADERS } = require('./lib/cache')
 
 const API_ENDPOINT = `http://apicollections.parismusees.paris.fr/graphql`

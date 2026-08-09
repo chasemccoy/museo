@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useQueries } from 'react-query'
+import { useQueries } from '@tanstack/react-query'
 import SearchInput from '../components/SearchInput'
 import SourceTicker from '../components/SourceTicker'
 import styles from '../styles/Home.module.css'
@@ -48,13 +48,13 @@ export default function Home() {
 
   // router.isReady gates the queries until after hydration commits —
   // fetches resolving mid-hydration force React to repeatedly restart it
-  const results = useQueries(
-    SOURCE_APIS.map((source) => ({
+  const results = useQueries({
+    queries: SOURCE_APIS.map((source) => ({
       queryKey: [source, searchTerm],
       queryFn: fetchSource,
       enabled: router.isReady && Boolean(searchTerm),
-    }))
-  )
+    })),
+  })
 
   // Round-robin interleave whatever has arrived so far
   const data = useMemo(() => {
@@ -160,15 +160,15 @@ export default function Home() {
                 <li key={item.image || i}>
                   <a href={item.url} target='_blank'>
                     <img
-                      data-src={item.image}
+                      src={item.image}
                       alt={item.title}
+                      loading='lazy'
                       onError={(e) => {
                         // Hide rather than remove — the list re-renders as
                         // sources stream in, so React must own the DOM
                         const li = e.target.closest('li')
                         if (li) li.style.display = 'none'
                       }}
-                      className='lazyload'
                     />
                   </a>
                 </li>

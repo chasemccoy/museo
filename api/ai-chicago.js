@@ -1,4 +1,3 @@
-const fetch = require('node-fetch')
 const { CACHE_HEADERS } = require('./lib/cache')
 
 // Note: is_public_domain is filtered client-side rather than with a

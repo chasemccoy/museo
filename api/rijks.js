@@ -1,4 +1,3 @@
-const fetch = require('node-fetch')
 const { CACHE_HEADERS } = require('./lib/cache')
 
 // The Rijksmuseum retired their classic collection API (it returns 410) in

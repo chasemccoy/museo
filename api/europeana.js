@@ -1,4 +1,3 @@
-const fetch = require('node-fetch')
 const { CACHE_HEADERS } = require('./lib/cache')
 
 // reusability=open limits results to public-domain and CC-licensed works
