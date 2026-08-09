@@ -9,6 +9,8 @@ const { met } = require('./met')
 const { smk } = require('./smk')
 const { wellcome } = require('./wellcome')
 const { smithsonian } = require('./smithsonian')
+const { paris } = require('./paris')
+const { europeana } = require('./europeana')
 
 const interleave = ([x, ...xs], ys) => (x ? [x, ...interleave(ys, xs)] : ys)
 
@@ -25,6 +27,8 @@ exports.handler = async (event, context) => {
     smk,
     wellcome,
     smithsonian,
+    paris,
+    europeana,
   ]
 
   try {

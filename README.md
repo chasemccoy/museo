@@ -29,3 +29,5 @@ Some sources require (free) API tokens, provided as environment variables. Sourc
 - `HARVARD_TOKEN` — [Harvard Art Museums](https://harvardartmuseums.org/collections/api)
 - `NYPL_TOKEN` — [NYPL Digital Collections](https://api.repo.nypl.org/)
 - `SMITHSONIAN_TOKEN` — [api.data.gov](https://api.data.gov/signup/)
+- `PARIS_TOKEN` — [Paris Musées](https://www.parismusees.paris.fr/fr/les-collections-en-ligne/lapi-collections)
+- `EUROPEANA_TOKEN` — [Europeana](https://apis.europeana.eu/en/apis)

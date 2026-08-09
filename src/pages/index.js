@@ -19,6 +19,8 @@ const SOURCE_APIS = [
   'smk',
   'wellcome',
   'smithsonian',
+  'paris',
+  'europeana',
 ]
 
 const fetchSource = async ({ queryKey }) => {
