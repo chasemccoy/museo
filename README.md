@@ -1,6 +1,6 @@
 # 🏛 Museo
 
-Museo is a visual search engine that connects you with ten of the world's great museums and libraries:
+Museo is a visual search engine that connects you with twelve of the world's great museums and libraries:
 
 - [Art Institute of Chicago](https://www.artic.edu/archival-collections/explore-the-collection)
 - [The Metropolitan Museum of Art](https://www.metmuseum.org)
@@ -12,6 +12,8 @@ Museo is a visual search engine that connects you with ten of the world's great 
 - [Wellcome Collection](https://wellcomecollection.org)
 - [New York Public Library Digital Collections](https://digitalcollections.nypl.org)
 - [Smithsonian Institution](https://www.si.edu/openaccess)
+- [Paris Musées](https://www.parismuseescollections.paris.fr)
+- [Europeana](https://www.europeana.eu)
 
 Every image you find with Museo is in the public domain and typically completely free to use (although crediting the source institution never hurts!)
 

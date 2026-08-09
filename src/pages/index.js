@@ -105,7 +105,7 @@ export default function Home() {
 
           <p className={styles.subtitle}>
             Museo is a visual search engine for free, public-domain images
-            from ten of the world&rsquo;s great museums and libraries. Images
+            from twelve of the world&rsquo;s great museums and libraries. Images
             you find here are typically free to use, but please check with the
             source institution for more specifics.
           </p>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from '../styles/SourceTicker.module.css'
 
 const SOURCES = [
@@ -18,11 +18,32 @@ const SOURCES = [
     url: 'https://digitalcollections.nypl.org',
   },
   { name: 'Smithsonian Institution', url: 'https://www.si.edu/openaccess' },
+  {
+    name: 'Paris Musées',
+    url: 'https://www.parismuseescollections.paris.fr',
+  },
+  { name: 'Europeana', url: 'https://www.europeana.eu' },
 ]
 
+const shuffle = (list) => {
+  const shuffled = [...list]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
+}
+
 const SourceTicker = () => {
+  // Shuffled after mount so the server and client render the same markup
+  const [sources, setSources] = useState(SOURCES)
+
+  useEffect(() => {
+    setSources(shuffle(SOURCES))
+  }, [])
+
   // The reel is doubled so the animation can loop seamlessly at -50%
-  const reel = [...SOURCES, ...SOURCES]
+  const reel = [...sources, ...sources]
 
   return (
     <div className={styles.band}>
