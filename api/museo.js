@@ -2,7 +2,6 @@ const { aiChicago } = require('./ai-chicago')
 const { CACHE_HEADERS } = require('./lib/cache')
 const { artsmia } = require('./artsmia')
 const { harvard } = require('./harvard')
-const { nypl } = require('./nypl')
 const { rijks } = require('./rijks')
 const { cleveland } = require('./cleveland')
 const { met } = require('./met')
@@ -20,7 +19,6 @@ exports.handler = async (event, context) => {
     aiChicago,
     artsmia,
     harvard,
-    nypl,
     rijks,
     cleveland,
     met,

@@ -13,10 +13,6 @@ const SOURCES = [
   { name: 'Cleveland Museum of Art', url: 'https://www.clevelandart.org' },
   { name: 'National Gallery of Denmark', url: 'https://open.smk.dk' },
   { name: 'Wellcome Collection', url: 'https://wellcomecollection.org' },
-  {
-    name: 'New York Public Library',
-    url: 'https://digitalcollections.nypl.org',
-  },
   { name: 'Smithsonian Institution', url: 'https://www.si.edu/openaccess' },
   {
     name: 'Paris Musées',
