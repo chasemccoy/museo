@@ -48,6 +48,7 @@ const SearchInput = ({ value, onChange, onSubmit }) => {
       <div className={styles.wrapper}>
         <input
           type='search'
+          autoFocus
           placeholder={`“${placeholder}”`}
           value={value}
           onChange={onChange}
