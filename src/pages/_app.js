@@ -1,3 +1,4 @@
+import '../polyfills'
 import 'resetti'
 import '../styles/globals.css'
 

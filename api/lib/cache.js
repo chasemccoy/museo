@@ -1,4 +1,4 @@
-// Museum collections change on the scale of weeks — cache successful search
+// Museum collections change on the scale of weeks — cache non-empty search
 // responses so repeat queries are served by the CDN instead of re-fanning
 // out to ten upstream APIs. `Netlify-CDN-Cache-Control` governs Netlify's
 // edge cache; `Cache-Control` governs the browser.

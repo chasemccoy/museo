@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: CACHE_HEADERS,
+      headers: data.length > 0 ? CACHE_HEADERS : {},
       body: JSON.stringify(data),
     }
   } catch (error) {

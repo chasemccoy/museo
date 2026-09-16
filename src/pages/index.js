@@ -22,22 +22,19 @@ const SOURCE_APIS = [
   'europeana',
 ]
 
+// Throws on failure (rather than returning []) so TanStack Query retries
+// transient errors and the UI can tell "sources unreachable" from "no matches"
 const fetchSource = async ({ queryKey }) => {
   const [source, searchTerm] = queryKey
 
-  try {
-    const response = await fetch(
-      `/api/${source}?q=${encodeURIComponent(searchTerm)}`
-    )
-    if (!response.ok) {
-      throw `Query to ${source} failed`
-    }
-
-    return await response.json()
-  } catch (error) {
-    console.log(error)
-    return []
+  const response = await fetch(
+    `/api/${source}?q=${encodeURIComponent(searchTerm)}`
+  )
+  if (!response.ok) {
+    throw new Error(`Query to ${source} failed (${response.status})`)
   }
+
+  return response.json()
 }
 
 export default function Home() {
@@ -52,6 +49,7 @@ export default function Home() {
       queryKey: [source, searchTerm],
       queryFn: fetchSource,
       enabled: router.isReady && Boolean(searchTerm),
+      retry: 2,
     })),
   })
 
@@ -84,10 +82,14 @@ export default function Home() {
   }, [searchTerm])
 
   const isLoading = Boolean(searchTerm) && results.some((r) => r.isLoading)
+  const allFailed =
+    Boolean(searchTerm) && !isLoading && results.every((r) => r.isError)
 
   const emptyState =
     isLoading && data.length === 0
       ? 'Loading...'
+      : allFailed
+      ? 'Museo couldn’t reach any of its sources just now. Please try again in a moment.'
       : searchTerm && !isLoading
       ? 'Hmm, there are no results for that query. Try something else?'
       : null

@@ -18,6 +18,12 @@
     "https://deno.land/x/html_rewriter@v0.1.0-pre.17/index.ts": "4e287b8929fbe8dba02de604f9d01b07323c81d1c62fef4094ccd10452493b11",
     "https://deno.land/x/html_rewriter@v0.1.0-pre.17/vendor/asyncify.js": "a70e36d0143de2de2e813917d740259ee71bcf1df75ceeaac0c1bc0ef7cc9a29",
     "https://deno.land/x/html_rewriter@v0.1.0-pre.17/vendor/html_rewriter.js": "00d95be2544925661bcf0c62afc07dcba610c1c6f157d11a9eb3709da7005ef7",
+    "https://edge.netlify.com/": "fd941d61d88673d5f28aab283fb86fcc50f08a3bc80ee5470498fcfa88c65cfb",
+    "https://edge.netlify.com/bootstrap/config.ts": "6a2ce0e544e15e8f8883a5c18da5948e37fd0f2619f68cb31f3af53c51817025",
+    "https://edge.netlify.com/bootstrap/context.ts": "e97240232121e2f369f6546ce961490f34d961ea1ea54be3ff09633e3f08373f",
+    "https://edge.netlify.com/bootstrap/cookie.ts": "8b0baae708989ca183c6f3b4ab3d029e6abcbc2e43f93edeb0ff447b3bbc3a05",
+    "https://edge.netlify.com/bootstrap/edge_function.ts": "b8253e86aa83c67341f5cfedeba5049d77fbf84dcab7eceff7566b7728ae9b39",
+    "https://edge.netlify.com/bootstrap/globals/types.ts": "eaa6148ded3121d8dee62dd91c86e7fe76601df0f3ca8d7962243a30f4c8935f",
     "https://esm.sh/v91/next@12.2.5/deno/dist/compiled/cookie.js": "e9192b4c8244a5a39e022e4d5cc8608de514dbffb85f98f4e2daceac3e99d67c",
     "https://esm.sh/v91/next@12.2.5/deno/dist/server/web/spec-extension/request.js": "5a6e1d718964dd6f4f9258a00066b2da791d31ee255c76867fb9b0c8abd93827",
     "https://esm.sh/v91/next@12.2.5/deno/dist/server/web/spec-extension/response.js": "51365495f72d3dca5ed95cc69042a5abaffd572d9cbfb8b49435dec6c4b32665"
@@ -25,14 +31,11 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
-        "npm:@netlify/plugin-nextjs@^4.38.1",
-        "npm:lazysizes@^5.3.0",
-        "npm:next@12.2.0",
-        "npm:node-fetch@^2.6.1",
-        "npm:precinct@8",
-        "npm:react-dom@18.2.0",
-        "npm:react-query@^3.9.3",
-        "npm:react@18.2.0",
+        "npm:@netlify/plugin-nextjs@^5.15.13",
+        "npm:@tanstack/react-query@^5.101.4",
+        "npm:next@^16.3.0",
+        "npm:react-dom@^19.2.8",
+        "npm:react@^19.2.8",
         "npm:resetti@^1.1.3"
       ]
     }
