@@ -1,0 +1,6 @@
+# Crawlers that render JavaScript trigger a live search on every result
+# URL they visit, each of which fans out to a dozen museum APIs.
+User-agent: *
+Disallow: /api/
+Disallow: /.netlify/
+Disallow: /*?q=

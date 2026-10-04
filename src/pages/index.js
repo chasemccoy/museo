@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useQueries } from '@tanstack/react-query'
 import SearchInput from '../components/SearchInput'
 import SourceTicker from '../components/SourceTicker'
 import styles from '../styles/Home.module.css'
 
-// Each source is fetched independently so results render as they arrive
-// instead of waiting on the slowest museum.
-const SOURCE_APIS = [
+// Display order for interleaving. The server streams one line per source as
+// each museum responds, so results render progressively from one request.
+const SOURCE_ORDER = [
   'ai-chicago',
   'artsmia',
   'harvard',
@@ -22,19 +21,69 @@ const SOURCE_APIS = [
   'europeana',
 ]
 
-// Throws on failure (rather than returning []) so TanStack Query retries
-// transient errors and the UI can tell "sources unreachable" from "no matches"
-const fetchSource = async ({ queryKey }) => {
-  const [source, searchTerm] = queryKey
+const ATTEMPTS = 3
 
-  const response = await fetch(
-    `/api/${source}?q=${encodeURIComponent(searchTerm)}`
-  )
-  if (!response.ok) {
-    throw new Error(`Query to ${source} failed (${response.status})`)
-  }
+// Reads the NDJSON stream from /api/search, surfacing each source's results
+// the moment its line arrives. Retries the whole request on network or
+// server failure so a transient blip self-heals.
+function useSearch(searchTerm, enabled) {
+  const [state, setState] = useState({ status: 'idle', sources: {} })
 
-  return response.json()
+  useEffect(() => {
+    if (!enabled || !searchTerm) {
+      setState({ status: 'idle', sources: {} })
+      return
+    }
+
+    const controller = new AbortController()
+    setState({ status: 'loading', sources: {} })
+
+    const run = async (attempt) => {
+      try {
+        const response = await fetch(
+          `/api/search?q=${encodeURIComponent(searchTerm)}`,
+          { signal: controller.signal }
+        )
+        if (!response.ok || !response.body) {
+          throw new Error(`Search failed (${response.status})`)
+        }
+
+        const reader = response.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+
+        while (true) {
+          const { value, done } = await reader.read()
+          if (done) break
+          buffer += decoder.decode(value, { stream: true })
+          const lines = buffer.split('\n')
+          buffer = lines.pop()
+          for (const line of lines) {
+            if (!line.trim()) continue
+            const { source, items } = JSON.parse(line)
+            setState((s) => ({
+              ...s,
+              sources: { ...s.sources, [source]: items },
+            }))
+          }
+        }
+
+        setState((s) => ({ ...s, status: 'done' }))
+      } catch (error) {
+        if (controller.signal.aborted) return
+        if (attempt < ATTEMPTS) {
+          setTimeout(() => run(attempt + 1), 1000 * attempt)
+        } else {
+          setState((s) => ({ ...s, status: 'error' }))
+        }
+      }
+    }
+
+    run(1)
+    return () => controller.abort()
+  }, [searchTerm, enabled])
+
+  return state
 }
 
 export default function Home() {
@@ -42,27 +91,18 @@ export default function Home() {
   const searchTerm = router.query.q
   const [value, setValue] = useState(searchTerm || '')
 
-  // router.isReady gates the queries until after hydration commits —
-  // fetches resolving mid-hydration force React to repeatedly restart it
-  const results = useQueries({
-    queries: SOURCE_APIS.map((source) => ({
-      queryKey: [source, searchTerm],
-      queryFn: fetchSource,
-      enabled: router.isReady && Boolean(searchTerm),
-      retry: 2,
-    })),
-  })
-
-  // Cap each source's contribution — beyond this the grid is all cost
-  // (layout and image fetches) and no discovery value
-  const MAX_PER_SOURCE = 48
+  // router.isReady gates the search until after hydration commits —
+  // state updates mid-hydration force React to repeatedly restart it
+  const { status, sources } = useSearch(
+    searchTerm,
+    router.isReady && Boolean(searchTerm)
+  )
 
   // Round-robin interleave whatever has arrived so far
   const data = useMemo(() => {
-    const lists = results
-      .map((r) => r.data)
-      .filter(Array.isArray)
-      .map((list) => list.slice(0, MAX_PER_SOURCE))
+    const lists = SOURCE_ORDER.map((name) => sources[name]).filter(
+      Array.isArray
+    )
     const interleaved = []
     const seen = new Set() // some sources return the same item twice
     const longest = Math.max(0, ...lists.map((l) => l.length))
@@ -75,15 +115,14 @@ export default function Home() {
       }
     }
     return interleaved
-  }, [results])
+  }, [sources])
 
   useEffect(() => {
     setValue(searchTerm || '')
   }, [searchTerm])
 
-  const isLoading = Boolean(searchTerm) && results.some((r) => r.isLoading)
-  const allFailed =
-    Boolean(searchTerm) && !isLoading && results.every((r) => r.isError)
+  const isLoading = status === 'loading'
+  const allFailed = status === 'error'
 
   const emptyState =
     isLoading && data.length === 0

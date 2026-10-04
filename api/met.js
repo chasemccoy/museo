@@ -1,7 +1,10 @@
 const { CACHE_HEADERS } = require('./lib/cache')
 
+// v1 search was retired 2026-10-01; v1.1 is paginated via limit/offset
 const SEARCH_ENDPOINT = (query) =>
-  `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${query}&hasImages=true`
+  `https://collectionapi.metmuseum.org/public/collection/v1.1/search?q=${encodeURIComponent(
+    query
+  )}&hasImages=true&limit=${MAX_OBJECTS}&offset=0`
 
 const OBJECT_ENDPOINT = (id) =>
   `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
